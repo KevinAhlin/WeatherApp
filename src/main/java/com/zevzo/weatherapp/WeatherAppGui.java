@@ -112,7 +112,6 @@ public class WeatherAppGui extends JFrame {
                 weatherData = WeatherApp.getWeatherData(userInput);
 
                 // update gui
-
                 // update weather image
                 String weatherCondition = (String) weatherData.get("weather_condition");
 
@@ -135,7 +134,7 @@ public class WeatherAppGui extends JFrame {
 
                 // update temperature text
                 double temperature = (double) weatherData.get("temperature");
-                temperatureText.setText(weatherCondition);
+                temperatureText.setText(temperature + " C");
 
                 // update weather condition text
                 weatherConditionDesc.setText(weatherCondition);

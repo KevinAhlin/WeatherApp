@@ -37,58 +37,58 @@ public class WeatherApp {
             if (connection.getResponseCode() != 200) {
                 System.out.println("Error: Could not connect to API");
                 return null;
-            } else {
-                // store resulting json data
-                StringBuilder resultJson = new StringBuilder();
-                Scanner scanner = new Scanner(connection.getInputStream());
-                while (scanner.hasNext()) {
-                    // read and store into the string builder
-                    resultJson.append(scanner.nextLine());
-                }
-
-                // close scanner
-                scanner.close();
-
-                // close url connection
-                connection.disconnect();
-
-                // parse the JSON string into a JSON object
-                JSONParser parser = new JSONParser();
-                JSONObject resultsJsonObj = (JSONObject) parser.parse(String.valueOf(resultJson));
-
-                // retrieve hourly data
-                JSONObject hourly = (JSONObject) resultsJsonObj.get("hourly");
-
-                // we want to get the current hour's data,
-                // so we need to get the index of our current hour
-                JSONArray time = (JSONArray) hourly.get("time");
-                int index = findIndexOfCurrentTime(time);
-
-                // get the temperature data of the current hour
-                JSONArray temperatureData = (JSONArray) hourly.get("temperature_2m");
-                double temperature = (double) temperatureData.get(index);
-
-                // get weather code
-                JSONArray weatherCode = (JSONArray) hourly.get("weathercode");
-                String weatherCondition = convertWeatherCode((long) weatherCode.get(index));
-
-                // get humidity
-                JSONArray relativeHumidity = (JSONArray) hourly.get("relativehumidity_2m");
-                long humidity = (long) relativeHumidity.get(index);
-
-                // get windSpeed
-                JSONArray windSpeedData = (JSONArray) hourly.get("windspeed_10m");
-                double windSpeed = (double) windSpeedData.get(index);
-
-                // build the weather json data object that we are going to access in our frontend
-                JSONObject weatherData = new JSONObject();
-                weatherData.put("temperature", temperature);
-                weatherData.put("weather_condition", weatherCondition);
-                weatherData.put("humidity", humidity);
-                weatherData.put("windspeed", windSpeed);
-
-                return weatherData;
             }
+
+            // store resulting json data
+            StringBuilder resultJson = new StringBuilder();
+            Scanner scanner = new Scanner(connection.getInputStream());
+            while (scanner.hasNext()) {
+                // read and store into the string builder
+                resultJson.append(scanner.nextLine());
+            }
+
+            // close scanner
+            scanner.close();
+
+            // close url connection
+            connection.disconnect();
+
+            // parse the JSON string into a JSON object
+            JSONParser parser = new JSONParser();
+            JSONObject resultsJsonObj = (JSONObject) parser.parse(String.valueOf(resultJson));
+
+            // retrieve hourly data
+            JSONObject hourly = (JSONObject) resultsJsonObj.get("hourly");
+
+            // we want to get the current hour's data,
+            // so we need to get the index of our current hour
+            JSONArray time = (JSONArray) hourly.get("time");
+            int index = findIndexOfCurrentTime(time);
+
+            // get the temperature data of the current hour
+            JSONArray temperatureData = (JSONArray) hourly.get("temperature_2m");
+            double temperature = (double) temperatureData.get(index);
+
+            // get weather code
+            JSONArray weatherCode = (JSONArray) hourly.get("weathercode");
+            String weatherCondition = convertWeatherCode((long) weatherCode.get(index));
+
+            // get humidity
+            JSONArray relativeHumidity = (JSONArray) hourly.get("relativehumidity_2m");
+            long humidity = (long) relativeHumidity.get(index);
+
+            // get windSpeed
+            JSONArray windSpeedData = (JSONArray) hourly.get("windspeed_10m");
+            double windSpeed = (double) windSpeedData.get(index);
+
+            // build the weather json data object that we are going to access in our frontend
+            JSONObject weatherData = new JSONObject();
+            weatherData.put("temperature", temperature);
+            weatherData.put("weather_condition", weatherCondition);
+            weatherData.put("humidity", humidity);
+            weatherData.put("windspeed", windSpeed);
+
+            return weatherData;
         } catch (Exception error) {
             error.printStackTrace();
         }
@@ -98,6 +98,7 @@ public class WeatherApp {
 
     // creates another API call where it will take in an entered
     // location, and return the latitude and longitude data
+    // retrieves geographic coordinates for given location name
     public static JSONArray getLocationData(String locationName) {
         // replace any whitespace in location name with "+" to adhere to the APIs request format
         locationName = locationName.replaceAll(" ", "+");

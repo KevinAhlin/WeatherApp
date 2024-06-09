@@ -12,7 +12,7 @@ public class AppLauncher {
                 new WeatherAppGui().setVisible(true);
 
                 // pass the name of a city for debugging
-                //System.out.println(WeatherApp.getLocationData("Tokyo"));
+                //System.out.println(WeatherApp.getLocationData("Stockholm"));
 
                 // test 'getCurrentTime' method for debugging
                 //System.out.println(WeatherApp.getCurrentTime());

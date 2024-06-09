@@ -70,9 +70,25 @@ public class WeatherApp {
 
                 // get weather code
                 JSONArray weatherCode = (JSONArray) hourly.get("weathercode");
-                //String weatherCondition = convertWeatherCode((long) weatherCode.get(index));
-            }
+                String weatherCondition = convertWeatherCode((long) weatherCode.get(index));
 
+                // get humidity
+                JSONArray relativeHumidity = (JSONArray) hourly.get("relativehumidity_2m");
+                long humidity = (long) relativeHumidity.get(index);
+
+                // get windSpeed
+                JSONArray windSpeedData = (JSONArray) hourly.get("windspeed_10m");
+                double windSpeed = (double) windSpeedData.get(index);
+
+                // build the weather json data object that we are going to access in our frontend
+                JSONObject weatherData = new JSONObject();
+                weatherData.put("temperature", temperature);
+                weatherData.put("weather_condition", weatherCondition);
+                weatherData.put("humidity", humidity);
+                weatherData.put("windspeed", windSpeed);
+
+                return weatherData;
+            }
         } catch (Exception error) {
             error.printStackTrace();
         }

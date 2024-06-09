@@ -178,6 +178,28 @@ public class WeatherApp {
 
         return formattedDateTime;
     }
+
+    // convert the weather code to something more readable
+    private static String convertWeatherCode(long weatherCode) {
+        String weatherCondition = "";
+
+        if (weatherCode == 0L) {
+            // clear
+            weatherCondition = "Clear";
+        } else if (weatherCode > 0L && weatherCode <= 3L) {
+            // cloudy
+            weatherCondition = "Cloudy";
+        } else if ((weatherCode >= 51L && weatherCode <= 67L)
+                        || (weatherCode >= 80L && weatherCode <= 99L)) {
+            // rain
+            weatherCondition = "Rain";
+        } else if (weatherCode >= 71L && weatherCode <= 77L) {
+            // snow
+            weatherCondition = "Snow";
+        }
+
+        return weatherCondition;
+    }
 }
 
 

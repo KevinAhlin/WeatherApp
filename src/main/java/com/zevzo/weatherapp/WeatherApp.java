@@ -63,6 +63,14 @@ public class WeatherApp {
                 // so we need to get the index of our current hour
                 JSONArray time = (JSONArray) hourly.get("time");
                 int index = findIndexOfCurrentTime(time);
+
+                // get the temperature data of the current hour
+                JSONArray temperatureData = (JSONArray) hourly.get("temperature_2m");
+                double temperature = (double) temperatureData.get(index);
+
+                // get weather code
+                JSONArray weatherCode = (JSONArray) hourly.get("weathercode");
+                //String weatherCondition = convertWeatherCode((long) weatherCode.get(index));
             }
 
         } catch (Exception error) {
@@ -145,6 +153,15 @@ public class WeatherApp {
 
     private static int findIndexOfCurrentTime(JSONArray timeList) {
         String currentTime = getCurrentTime();
+
+        // iterate through the time list and see which one matches our current time
+        for (int i = 0; i < timeList.size(); i++) {
+            String time = (String) timeList.get(i);
+            if (time.equalsIgnoreCase(currentTime)) {
+                // return the index
+                return i;
+            }
+        }
 
         return 0;
     }
